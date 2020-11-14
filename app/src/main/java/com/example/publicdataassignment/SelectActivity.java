@@ -41,6 +41,11 @@ public class SelectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 double latitude = gpsListener.getLatitude();
                 double longitude = gpsListener.getLongitude();
+                if(latitude == -1 || longitude == -1) {
+                    Log.e("API-GEOAPI", "not Initialized");
+                    Toast.makeText(SelectActivity.this, "로딩 중입니다. 잠시만 기다려 주세요..", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String dong = null;
                 try {
                     dong = reverseGeocoder.requestReverseGeoApi((float)latitude, (float)longitude);
