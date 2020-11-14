@@ -51,9 +51,9 @@ public class ReverseGeocoder {
         }
     }
 
-    public String requestReverseGeoApi(float x, float y) throws IOException {
+    public String requestReverseGeoApi(double latitude, double longitude) throws IOException {
         StringBuilder urlBuilder = new StringBuilder(reverse_geo_url); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("coords", "UTF-8") + "=" + URLEncoder.encode(String.format("%f,%f", x, y), "UTF-8"));
+        urlBuilder.append("?" + URLEncoder.encode("coords", "UTF-8") + "=" + URLEncoder.encode(String.format("%f,%f", latitude, longitude), "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("output", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("X-NCP-APIGW-API-KEY-ID", "UTF-8") + "=" + URLEncoder.encode(api_key, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("X-NCP-APIGW-API-KEY", "UTF-8") + "=" + URLEncoder.encode(api_secret, "UTF-8"));

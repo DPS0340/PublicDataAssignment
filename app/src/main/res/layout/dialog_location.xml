@@ -1,14 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="300dp"
+    android:background="#5c6e91"
+    android:foregroundTint="#FFFFFF"
     tools:context=".MainActivity">
 
     <Button
-        android:text="Button"
+        android:id="@+id/dialogYesButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"/>
-</RelativeLayout>
+        android:layout_height="45dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="138dp"
+        android:backgroundTint="#8f384d"
+        android:text="@string/dialog_yes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/dialogDongName"
+        app:layout_constraintHorizontal_bias="0.407"
+        app:layout_constraintStart_toStartOf="@+id/dialogDongName"
+        app:layout_constraintTop_toBottomOf="@+id/dialogDongName"
+        app:layout_constraintVertical_bias="0.503" />
+
+    <Button
+        android:id="@+id/dialogNoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="138dp"
+        android:backgroundTint="#8f384d"
+        android:text="@string/dialog_no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/dialogDongName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/dialogDongName"
+        app:layout_constraintTop_toBottomOf="@+id/dialogDongName"
+        app:layout_constraintVertical_bias="0.503" />
+
+    <EditText
+        android:id="@+id/dialogDongName"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="85dp"
+        android:ems="10"
+        android:hint="@string/dialog_please_input"
+        android:inputType="textPersonName"
+        android:textColor="#eeeded"
+        android:textColorHint="#eeeded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:cardBackgroundColor="#333456"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="6dp">
+
+        <TextView
+            android:id="@+id/dialogMenuText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:text="@string/dialog_menu"
+            android:textColor="#ea2c62"
+            android:textSize="30dp" />
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

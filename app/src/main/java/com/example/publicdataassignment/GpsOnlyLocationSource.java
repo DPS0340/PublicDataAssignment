@@ -16,7 +16,7 @@ import com.naver.maps.map.LocationSource;
 import java.util.ArrayList;
 
 
-public class GpsOnlyLocationSource implements LocationSource, LocationListener, Observerble {
+public class GpsOnlyLocationSource implements LocationSource, LocationListener {
     @NonNull
     private final Context context;
     @Nullable
@@ -68,23 +68,6 @@ public class GpsOnlyLocationSource implements LocationSource, LocationListener, 
     public void onLocationChanged(Location location) {
         if (listener != null) {
             listener.onLocationChanged(location);
-        }
-    }
-
-    @Override
-    public void add(Observer observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void remove(Observer observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notice() {
-        for(Observer observer : observers) {
-            observer.observe(this);
         }
     }
 }

@@ -30,14 +30,14 @@ public class MainActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
                         Log.i("MAIN", "Loading is done!");
-                        goShowActivity();
+                        goSelectActivity();
                     }
                 },
                 (int)(0.8 * 1000));
     }
 
-    private void goShowActivity() {
-        Intent destIntent = new Intent(this, ShowActivity.class);
+    private void goSelectActivity() {
+        Intent destIntent = new Intent(this, SelectActivity.class);
         startActivity(destIntent);
     }
 }
