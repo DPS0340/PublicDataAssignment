@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class AirAPIHandler {
@@ -58,14 +59,16 @@ public class AirAPIHandler {
         }
     }
 
-    public int requestAirAPI(String location) throws IOException, ArrayIndexOutOfBoundsException {
+    public int requestAirAPI(String location) throws IOException, IndexOutOfBoundsException, NullPointerException {
         StringBuilder urlBuilder = new StringBuilder(air_url); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + new String(api_key.getBytes("UTF-8"))); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + api_key); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
         urlBuilder.append("&" + URLEncoder.encode("stationName", "UTF-8") + "=" + URLEncoder.encode(location, "UTF-8")); /*측정소명*/
-        urlBuilder.append("&" + URLEncoder.encode("searchCondition", "UTF-8") + "=" + URLEncoder.encode("DAILY", "UTF-8")); /*검색 조건 (년도별 : YEAR, 월별: MONTH, 일별 : DAILY)*/
+        urlBuilder.append("&" + URLEncoder.encode("dataTerm", "UTF-8") + "=" + URLEncoder.encode("DAILY", "UTF-8")); /*검색 조건 (년도별 : YEAR, 월별: MONTH, 일별 : DAILY)*/
+        urlBuilder.append("&" + URLEncoder.encode("ver", "UTF-8") + "=" + URLEncoder.encode("1.3", "UTF-8")); /*검색 조건 (년도별 : YEAR, 월별: MONTH, 일별 : DAILY)*/
         URL url = new URL(urlBuilder.toString());
+        Log.i("API-AIRAPI", "URL: " + urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
@@ -95,8 +98,8 @@ public class AirAPIHandler {
         arr.add(item.no2Grade);
         arr.add(item.pm10Grade);
         arr.add(item.pm25Grade);
-        Stream<Integer> stream = arr.stream();
-        int result = stream.max(Comparator.comparing(Integer::valueOf)).get();
+        IntStream stream = arr.stream().mapToInt(Integer::intValue);
+        int result = (int) Math.round(stream.average().getAsDouble());
         Log.i("API-AIRAPI", "Result value: " + result);
         return result;
     }
