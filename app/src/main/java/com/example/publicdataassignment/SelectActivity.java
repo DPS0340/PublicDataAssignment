@@ -89,8 +89,8 @@ public class SelectActivity extends AppCompatActivity {
                     Toast.makeText(activity, "동 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                goShowActivity(dong);
                 dialog.dismiss();
+                goShowActivity(dong);
             }
         });
         dialog.show();
