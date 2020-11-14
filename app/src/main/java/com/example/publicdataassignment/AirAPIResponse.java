@@ -9,7 +9,7 @@ public class AirAPIResponse {
     private ArrayList<Integer> grades;
     private ArrayList<Double> values;
     private ArrayList<String> names;
-    private int overallGrade;
+    private int overallStatus;
 
     public AirAPIResponse(ArrayList<Integer> grades, ArrayList<Double> values, ArrayList<String> names) {
         // 딥 카피 사용
@@ -17,11 +17,11 @@ public class AirAPIResponse {
         this.values = new ArrayList<>(values);
         this.names = new ArrayList<>(names);
         IntStream stream = grades.stream().mapToInt(Integer::intValue);
-        overallGrade = stream.max().getAsInt();
+        overallStatus = stream.max().getAsInt();
         Log.i("API-AIRAPI", "Result grades: " + grades.toString());
         Log.i("API-AIRAPI", "Result values: " + values.toString());
         Log.i("API-AIRAPI", "Result names: " + names.toString());
-        Log.i("API-AIRAPI", "Result overall Grade: " + overallGrade);
+        Log.i("API-AIRAPI", "Result overall status: " + overallStatus);
     }
 
     public ArrayList<Integer> getGrades() {
@@ -35,8 +35,8 @@ public class AirAPIResponse {
         return names;
     }
 
-    public int getOverallGrade() {
-        return overallGrade;
+    public int getOverallStatus() {
+        return overallStatus;
     }
 
 }

@@ -1,15 +1,21 @@
 package com.example.publicdataassignment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -22,47 +28,106 @@ public class ShowActivity extends AppCompatActivity {
         AirAPIHandler airAPIHandler = new AirAPIHandler.Builder(this).build();
         Intent currentIntent = getIntent();
         String gu = currentIntent.getStringExtra("gu");
-        int status = 0;
+        AirAPIResponse response = null;
+        int overAllstatus;
         try {
-            status = airAPIHandler.requestAirAPI(gu);
+            response = airAPIHandler.requestAirAPI(gu);
         } catch (IOException err) {
             String errString = Log.getStackTraceString(err);
             Log.e("API-AIRAPI", errString);
             Toast.makeText(ShowActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();
         }
-        initLayout(gu, status);
+        if (response == null) {
+            overAllstatus = 0;
+        } else {
+            overAllstatus = response.getOverallStatus();
+        }
+        initLayout(gu, overAllstatus, response);
     }
 
-    private void initLayout(String gu, int status) {
+    private void initLayout(String gu, int status, AirAPIResponse response) {
         TextView todayText = findViewById(R.id.todayIsText);
-        if(status != 0) {
-            todayText.setText(String.format("오늘의 %s의 날씨는 %s 입니다.", gu, parseStatus(status)));
+        if (status != 0) {
+            todayText.setText(String.format(todayText.getText().toString(), gu, parseStatus(status)));
         } else {
             todayText.setText(String.format("%s 검색에 오류가 발생했습니다.", gu));
         }
-        int faceID;
-        int colorID;
+        int faceID = parseFace(status);
+        int colorID = parseColor(status);
+        setFace(faceID);
+        setColor(colorID);
+        if (status != 0) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            LinearLayout root = findViewById(R.id.statusLayout);
+            LinearLayout horizontal = new LinearLayout(this);
+            for (int i = 0; i < response.getNames().size(); i++) {
+                int partStatus = response.getGrades().get(i);
+                double partValue = response.getValues().get(i);
+                String partName = response.getNames().get(i);
+                View inflated = inflater.inflate(R.layout.layout_part_air_status, horizontal, false);
+                setInflatedData(inflated, partStatus, partValue, partName);
+                inflated.invalidate();
+                if (i == 2) {
+                    horizontal.invalidate();
+                    root.addView(horizontal);
+                    root.invalidate();
+                    horizontal = new LinearLayout(this);
+                }
+            }
+        }
+    }
+
+    private void setInflatedData(View inflated, int partStatus, double partValue, String partName) {
+        // 투명 배경 설정
+        inflated.setBackgroundColor(Color.parseColor("#80000000"));
+
+        ImageView icon = inflated.findViewById(R.id.icon);
+        TextView name = inflated.findViewById(R.id.name);
+        TextView value = inflated.findViewById(R.id.value);
+        int faceId = parseFace(partStatus);
+        icon.setImageResource(faceId);
+        name.setText(String.format(name.getText().toString(), partName, parseStatus(partStatus)));
+        value.setText(String.format(value.getText().toString(), partValue));
+    }
+
+    private int parseColor(int status) {
+        int colorId;
         switch (status) {
             case DayStatus.VERY_SATISFIED:
-                faceID = R.drawable.ic_baseline_sentiment_very_satisfied_24;
-                colorID = R.color.very_satisfied;
+                colorId = R.color.very_satisfied;
                 break;
             case DayStatus.SATISFIED:
-                faceID = R.drawable.ic_baseline_sentiment_satisfied_alt_24;
-                colorID = R.color.satisfied;
+                colorId = R.color.satisfied;
                 break;
             case DayStatus.DISSATISFIED:
-                faceID = R.drawable.ic_baseline_sentiment_dissatisfied_24;
-                colorID = R.color.dissatisfied;
+                colorId = R.color.dissatisfied;
                 break;
             case DayStatus.VERY_DISSATISFIED:
             default:
-                faceID = R.drawable.ic_baseline_sentiment_very_dissatisfied_24;
-                colorID = R.color.very_dissatisfied;
+                colorId = R.color.very_dissatisfied;
                 break;
         }
-        setFace(faceID);
-        setColor(colorID);
+        return colorId;
+    }
+
+    private int parseFace(int status) {
+        int faceId;
+        switch (status) {
+            case DayStatus.VERY_SATISFIED:
+                faceId = R.drawable.ic_baseline_sentiment_very_satisfied_24;
+                break;
+            case DayStatus.SATISFIED:
+                faceId = R.drawable.ic_baseline_sentiment_satisfied_alt_24;
+                break;
+            case DayStatus.DISSATISFIED:
+                faceId = R.drawable.ic_baseline_sentiment_dissatisfied_24;
+                break;
+            case DayStatus.VERY_DISSATISFIED:
+            default:
+                faceId = R.drawable.ic_baseline_sentiment_very_dissatisfied_24;
+                break;
+        }
+        return faceId;
     }
 
     private String parseStatus(int status) {
