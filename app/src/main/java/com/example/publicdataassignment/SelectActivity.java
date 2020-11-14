@@ -46,7 +46,7 @@ public class SelectActivity extends AppCompatActivity {
                     dong = reverseGeocoder.requestReverseGeoApi((float)latitude, (float)longitude);
                 } catch (Exception err) {
                     String errString = Log.getStackTraceString(err);
-                    Log.e("GEOAPI", errString);
+                    Log.e("API-GEOAPI", errString);
                     Toast.makeText(SelectActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }

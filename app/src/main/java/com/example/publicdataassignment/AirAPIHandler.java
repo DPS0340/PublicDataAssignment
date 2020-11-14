@@ -71,8 +71,8 @@ public class AirAPIHandler {
         rd.close();
         conn.disconnect();
         String result = sb.toString();
-        Log.i("AIRAPI", "Response code: " + conn.getResponseCode());
-        Log.i("AIRAPI", "Result: " + result);
+        Log.i("API-AIRAPI", "Response code: " + conn.getResponseCode());
+        Log.i("API-AIRAPI", "Result: " + result);
         return result;
     }
 
