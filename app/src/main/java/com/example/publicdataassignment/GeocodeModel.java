@@ -4,7 +4,7 @@ import com.naver.maps.geometry.Coord;
 
 import java.util.ArrayList;
 
-public class GeocodeData {
+public class GeocodeModel {
     public class Status {
         public int code;
         public String name;

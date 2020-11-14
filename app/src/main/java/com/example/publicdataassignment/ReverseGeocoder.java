@@ -5,12 +5,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.xmlpull.v1.XmlPullParser;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -83,7 +80,7 @@ public class ReverseGeocoder {
         Log.i("GEOAPI", "longitude: " + longitude);
         Log.i("GEOAPI", "Json String: " + jsonString);
         Log.i("GEOAPI", "Response code: " + conn.getResponseCode());
-        GeocodeData data = gson.fromJson(jsonString, GeocodeData.class);
+        GeocodeModel data = gson.fromJson(jsonString, GeocodeModel.class);
         String result = data.results.get(0).region.area3.name;
         Log.i("GEOAPI", "Result: " + result);
         return result;

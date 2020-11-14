@@ -4,6 +4,8 @@ package com.example.publicdataassignment;
 import android.app.Activity;
 import android.util.Log;
 
+import com.stanfy.gsonxml.XmlParserCreator;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -11,7 +13,6 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -87,4 +88,24 @@ public class AirAPIHandler {
         return result;
     }
 
+    public AirAPIModel parseResponse() {
+        XmlParserCreator parserCreator = new XmlParserCreator() {
+            @Override
+            public XmlPullParser createParser() {
+                try {
+                    return XmlPullParserFactory.newInstance().newPullParser();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+
+        GsonXml gsonXml = new GsonXmlBuilder()
+                .setXmlParserCreator(parserCreator)
+                .create();
+
+        String xml = "<model><name>my name</name><description>my description</description></model>";
+        SimpleModel model = gsonXml.fromXml(xml, SimpleModel.class);
+
+    }
 }
