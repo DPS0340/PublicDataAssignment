@@ -32,6 +32,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(destIntent);
             }
         });
+        setTimeoutToSelectActivity(0.8);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        goSelectActivity();
+    }
+
+    private void setTimeoutToSelectActivity(double sec) {
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
@@ -39,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         goSelectActivity();
                     }
                 },
-                (int)(0.8 * 1000));
+                (int)(sec * 1000));
     }
 
     private void goSelectActivity() {
