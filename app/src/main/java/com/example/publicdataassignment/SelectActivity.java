@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ public class SelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
         requestPermissions();
+        setMainNetwork();
 
         GpsOnlyLocationSource gpsOnlyLocationSource = new GpsOnlyLocationSource(this);
         GpsListener gpsListener = new GpsListener();
@@ -39,10 +41,10 @@ public class SelectActivity extends AppCompatActivity {
                 double longitude = gpsListener.getLongitude();
                 String dong = null;
                 try {
-                    dong = reverseGeocoder.requestReverseGeoApi(latitude, longitude);
+                    dong = reverseGeocoder.requestReverseGeoApi((float)latitude, (float)longitude);
                 } catch (Exception err) {
                     String errString = Log.getStackTraceString(err);
-                    Log.e("SELECTACTIVITY", errString);
+                    Log.e("GEOAPI", errString);
                     Toast.makeText(SelectActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -99,5 +101,11 @@ public class SelectActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
         requestPermissions(permissions, 0);
+    }
+
+
+    private void setMainNetwork() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 }

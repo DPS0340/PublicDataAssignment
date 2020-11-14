@@ -39,5 +39,5 @@ public class GeocodeData {
         public Region region;
     }
     public Status status;
-    public Result result;
+    public ArrayList<Result> results;
 }

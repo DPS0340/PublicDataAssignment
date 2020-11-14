@@ -51,10 +51,12 @@ public class ReverseGeocoder {
         }
     }
 
-    public String requestReverseGeoApi(double latitude, double longitude) throws IOException {
+    public String requestReverseGeoApi(float latitude, float longitude) throws IOException, ArrayIndexOutOfBoundsException {
         StringBuilder urlBuilder = new StringBuilder(reverse_geo_url); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("coords", "UTF-8") + "=" + URLEncoder.encode(String.format("%f,%f", latitude, longitude), "UTF-8"));
+        urlBuilder.append("?" + URLEncoder.encode("request", "UTF-8") + "=" + URLEncoder.encode("coordsToaddr", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("coords", "UTF-8") + "=" + URLEncoder.encode(String.format("%f,%f", longitude, latitude), "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("output", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("orders", "UTF-8") + "=" + URLEncoder.encode("legalcode", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("X-NCP-APIGW-API-KEY-ID", "UTF-8") + "=" + URLEncoder.encode(api_key, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("X-NCP-APIGW-API-KEY", "UTF-8") + "=" + URLEncoder.encode(api_secret, "UTF-8"));
         URL url = new URL(urlBuilder.toString());
@@ -82,7 +84,7 @@ public class ReverseGeocoder {
         Log.i("GEOAPI", "Json String: " + jsonString);
         Log.i("GEOAPI", "Response code: " + conn.getResponseCode());
         GeocodeData data = gson.fromJson(jsonString, GeocodeData.class);
-        String result = data.result.region.area3.name;
+        String result = data.results.get(0).region.area3.name;
         Log.i("GEOAPI", "Result: " + result);
         return result;
     }

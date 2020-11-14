@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
 
@@ -11,13 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.PermissionChecker;
 
-import com.google.android.gms.location.LocationListener;
 import com.naver.maps.map.LocationSource;
 
 import java.util.ArrayList;
 
 
-public class GpsOnlyLocationSource implements LocationSource, LocationListener {
+public class GpsOnlyLocationSource extends Thread implements LocationSource, LocationListener {
     @NonNull
     private final Context context;
     @Nullable

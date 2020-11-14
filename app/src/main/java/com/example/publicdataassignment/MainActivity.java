@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setMainNetwork();
 
         Log.i("MAIN", "Showing loading screen..");
         Activity activity = this;
@@ -41,11 +40,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 },
                 (int)(0.8 * 1000));
-    }
-
-    private void setMainNetwork() {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
     }
 
     private void goSelectActivity() {
