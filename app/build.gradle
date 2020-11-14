@@ -12,7 +12,6 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,12 +27,15 @@ android {
     }
 }
 
-dependencies {
+ext {
+    splitties_version = "3.0.0-beta01"
+}
 
+dependencies {
+    implementation 'com.naver.maps:map-sdk:3.10.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.louiscad.splitties:splitties-fun-pack-android-base:3.0.0-beta01'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
