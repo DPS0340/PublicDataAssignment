@@ -26,7 +26,7 @@ public class AirAPIHandler {
         private String air_url;
 
         public Builder(Activity activity) {
-            api_key = activity.getResources().getString(R.string.api_key);
+            api_key = activity.getResources().getString(R.string.public_api_key);
             air_url = activity.getResources().getString(R.string.air_url);
         }
 
