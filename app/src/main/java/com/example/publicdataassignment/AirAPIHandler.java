@@ -99,7 +99,7 @@ public class AirAPIHandler {
         arr.add(item.pm10Grade);
         arr.add(item.pm25Grade);
         IntStream stream = arr.stream().mapToInt(Integer::intValue);
-        int result = stream.min().getAsInt();
+        int result = stream.max().getAsInt();
         Log.i("API-AIRAPI", "Result value: " + result);
         return result;
     }
