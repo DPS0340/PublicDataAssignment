@@ -2,6 +2,7 @@ package com.example.publicdataassignment;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.Manifest;
 import android.app.Activity;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -60,8 +62,10 @@ public class SelectActivity extends AppCompatActivity {
     }
 
     private void showDialog() {
-        final Dialog dialog = new Dialog(getApplicationContext());
+        final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_location);
+        Window window = dialog.getWindow();
+        window.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         Button dialogNoButton = dialog.findViewById(R.id.dialogNoButton);
         Button dialogYesButton = dialog.findViewById(R.id.dialogYesButton);
         EditText dialogDongName = dialog.findViewById(R.id.dialogDongName);
@@ -75,12 +79,12 @@ public class SelectActivity extends AppCompatActivity {
         dialogYesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = dialogDongName.getText().toString();
-                if (text.equals("")) {
+                String dong = dialogDongName.getText().toString();
+                if (dong.equals("")) {
                     Toast.makeText(activity, "동 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                goShowActivity(text);
+                goShowActivity(dong);
                 dialog.dismiss();
             }
         });
