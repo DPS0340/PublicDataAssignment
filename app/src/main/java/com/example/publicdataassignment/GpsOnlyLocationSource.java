@@ -24,8 +24,6 @@ public class GpsOnlyLocationSource extends Thread implements LocationSource, Loc
     private final LocationManager locationManager;
     @Nullable
     private LocationSource.OnLocationChangedListener listener;
-    // Observer 패턴 사용
-    private ArrayList<Observer> observers = new ArrayList<>();
 
     public GpsOnlyLocationSource(@NonNull Context context) {
         this.context = context;
