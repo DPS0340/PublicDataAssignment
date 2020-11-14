@@ -21,21 +21,25 @@ public class ShowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show);
         AirAPIHandler airAPIHandler = new AirAPIHandler.Builder(this).build();
         Intent currentIntent = getIntent();
-        String dong = currentIntent.getStringExtra("gu");
+        String gu = currentIntent.getStringExtra("gu");
         int status = 0;
         try {
-            status = airAPIHandler.requestAirAPI(dong);
+            status = airAPIHandler.requestAirAPI(gu);
         } catch (IOException err) {
             String errString = Log.getStackTraceString(err);
             Log.e("API-AIRAPI", errString);
             Toast.makeText(ShowActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();
         }
-        initLayout(dong, status);
+        initLayout(gu, status);
     }
 
     private void initLayout(String gu, int status) {
         TextView todayText = findViewById(R.id.todayIsText);
-        todayText.setText(String.format("오늘의 %s의 날씨는 %s 입니다.", gu, parseStatus(status)));
+        if(status != 0) {
+            todayText.setText(String.format("오늘의 %s의 날씨는 %s 입니다.", gu, parseStatus(status)));
+        } else {
+            todayText.setText(String.format("%s 검색에 오류가 발생했습니다.", gu));
+        }
         int faceID;
         int colorID;
         switch (status) {
@@ -52,12 +56,9 @@ public class ShowActivity extends AppCompatActivity {
                 colorID = R.color.dissatisfied;
                 break;
             case DayStatus.VERY_DISSATISFIED:
+            default:
                 faceID = R.drawable.ic_baseline_sentiment_very_dissatisfied_24;
                 colorID = R.color.very_dissatisfied;
-                break;
-            default:
-                faceID = 0;
-                colorID = 0;
                 break;
         }
         setFace(faceID);

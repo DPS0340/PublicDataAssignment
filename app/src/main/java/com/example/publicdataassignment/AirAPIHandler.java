@@ -90,7 +90,12 @@ public class AirAPIHandler {
         Log.i("API-AIRAPI", "Response code: " + conn.getResponseCode());
         Log.i("API-AIRAPI", "Result String: " + response);
         AirAPIModel model = parseResponse(response);
-        AirAPIModel.Body.Item item = model.body.items.get(0);
+        AirAPIModel.Body.Item item = null;
+        try {
+            item = model.body.items.get(0);
+        } catch (IndexOutOfBoundsException err) {
+            return 0;
+        }
         ArrayList<Integer> arr = new ArrayList<>();
         arr.add(item.khaiGrade);
         arr.add(item.coGrade);
