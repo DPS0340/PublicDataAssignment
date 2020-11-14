@@ -9,5 +9,5 @@
     <string name="dialog_menu">타 지역 선택</string>
     <string name="select_current">현재 위치 확인</string>
     <string name="select_another">타 지역 확인</string>
-    <string name="dialog_please_input">동을 입력하여 주세요.</string>
+    <string name="dialog_please_input">구를 입력하여 주세요.</string>
 </resources>

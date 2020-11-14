@@ -17,10 +17,10 @@
         android:backgroundTint="#8f384d"
         android:text="@string/dialog_yes"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/dialogDongName"
+        app:layout_constraintEnd_toEndOf="@+id/dialogGuName"
         app:layout_constraintHorizontal_bias="0.407"
-        app:layout_constraintStart_toStartOf="@+id/dialogDongName"
-        app:layout_constraintTop_toBottomOf="@+id/dialogDongName"
+        app:layout_constraintStart_toStartOf="@+id/dialogGuName"
+        app:layout_constraintTop_toBottomOf="@+id/dialogGuName"
         app:layout_constraintVertical_bias="0.503" />
 
     <Button
@@ -32,14 +32,14 @@
         android:backgroundTint="#8f384d"
         android:text="@string/dialog_no"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/dialogDongName"
+        app:layout_constraintEnd_toEndOf="@+id/dialogGuName"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/dialogDongName"
-        app:layout_constraintTop_toBottomOf="@+id/dialogDongName"
+        app:layout_constraintStart_toStartOf="@+id/dialogGuName"
+        app:layout_constraintTop_toBottomOf="@+id/dialogGuName"
         app:layout_constraintVertical_bias="0.503" />
 
     <EditText
-        android:id="@+id/dialogDongName"
+        android:id="@+id/dialogGuName"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="85dp"

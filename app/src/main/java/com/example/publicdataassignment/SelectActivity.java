@@ -73,7 +73,7 @@ public class SelectActivity extends AppCompatActivity {
         window.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         Button dialogNoButton = dialog.findViewById(R.id.dialogNoButton);
         Button dialogYesButton = dialog.findViewById(R.id.dialogYesButton);
-        EditText dialogDongName = dialog.findViewById(R.id.dialogDongName);
+        EditText dialogDongName = dialog.findViewById(R.id.dialogGuName);
         Activity activity = this;
         dialogNoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,21 +84,21 @@ public class SelectActivity extends AppCompatActivity {
         dialogYesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String dong = dialogDongName.getText().toString();
-                if (dong.equals("")) {
+                String gu = dialogDongName.getText().toString();
+                if (gu.equals("")) {
                     Toast.makeText(activity, "동 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 dialog.dismiss();
-                goShowActivity(dong);
+                goShowActivity(gu);
             }
         });
         dialog.show();
     }
 
-    private void goShowActivity(String dong) {
+    private void goShowActivity(String gu) {
         Intent destIntent = new Intent(this, ShowActivity.class);
-        destIntent.putExtra("dong", dong);
+        destIntent.putExtra("gu", gu);
         startActivity(destIntent);
     }
 
