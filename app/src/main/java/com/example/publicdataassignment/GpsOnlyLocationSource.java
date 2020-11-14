@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,6 +46,7 @@ public class GpsOnlyLocationSource implements LocationSource, LocationListener {
                 && PermissionChecker.checkSelfPermission(context,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PermissionChecker.PERMISSION_GRANTED) {
+            Log.i("GEOAPI", "No permission");
             // 권한 요청 로직 생략
             return;
         }

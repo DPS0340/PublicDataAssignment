@@ -6,8 +6,8 @@ import com.naver.maps.map.LocationSource;
 
 
 public class GpsListener implements LocationSource.OnLocationChangedListener {
-    public double latitude = -1.0;
-    public double longitude = -1.0;
+    private double latitude = -1.0;
+    private double longitude = -1.0;
 
 
     public GpsListener() {
@@ -18,5 +18,13 @@ public class GpsListener implements LocationSource.OnLocationChangedListener {
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 }

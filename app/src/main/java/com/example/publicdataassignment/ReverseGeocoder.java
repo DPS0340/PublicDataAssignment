@@ -77,9 +77,12 @@ public class ReverseGeocoder {
         conn.disconnect();
         String jsonString = sb.toString();
         Gson gson = new Gson();
+        Log.i("GEOAPI", "latitude: " + latitude);
+        Log.i("GEOAPI", "longitude: " + longitude);
+        Log.i("GEOAPI", "Json String: " + jsonString);
+        Log.i("GEOAPI", "Response code: " + conn.getResponseCode());
         GeocodeData data = gson.fromJson(jsonString, GeocodeData.class);
         String result = data.result.region.area3.name;
-        Log.i("GEOAPI", "Response code: " + conn.getResponseCode());
         Log.i("GEOAPI", "Result: " + result);
         return result;
     }
