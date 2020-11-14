@@ -12,25 +12,21 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class LoactionAPIHandler {
-    private String api_key;
     private String api_secret;
 
-    private LoactionAPIHandler(String api_key, String api_secret) {
-        this.api_key = api_key;
+    private LoactionAPIHandler(String api_secret) {
         this.api_secret = api_secret;
     }
 
     public static class Builder {
-        private String api_key;
         private String api_secret;
 
         public Builder(Activity activity) {
-            api_key = activity.getResources().getString(R.string.naver_api_key);
             api_secret = activity.getResources().getString(R.string.naver_api_secret);
         }
 
         public LoactionAPIHandler build() {
-            return new LoactionAPIHandler(api_key, api_secret);
+            return new LoactionAPIHandler(api_secret);
         }
     }
 
