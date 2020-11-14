@@ -4,6 +4,8 @@ package com.example.publicdataassignment;
 import android.app.Activity;
 import android.util.Log;
 
+import com.stanfy.gsonxml.GsonXml;
+import com.stanfy.gsonxml.GsonXmlBuilder;
 import com.stanfy.gsonxml.XmlParserCreator;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -13,10 +15,15 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 public class AirAPIHandler {
     private static AirAPIHandler instance = null;
@@ -51,9 +58,9 @@ public class AirAPIHandler {
         }
     }
 
-    public String requestAirAPI(String location) throws IOException, XmlPullParserException {
+    public int requestAirAPI(String location) throws IOException, ArrayIndexOutOfBoundsException {
         StringBuilder urlBuilder = new StringBuilder(air_url); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + api_key); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + new String(api_key.getBytes("UTF-8"))); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
         urlBuilder.append("&" + URLEncoder.encode("stationName", "UTF-8") + "=" + URLEncoder.encode(location, "UTF-8")); /*측정소명*/
@@ -76,19 +83,25 @@ public class AirAPIHandler {
         }
         rd.close();
         conn.disconnect();
-        String result = sb.toString();
+        String response = sb.toString();
         Log.i("API-AIRAPI", "Response code: " + conn.getResponseCode());
-        Log.i("API-AIRAPI", "Result String: " + result);
-
-        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-        factory.setNamespaceAware(true);
-        XmlPullParser xpp = factory.newPullParser();
-
-        xpp.setInput(new StringReader(result));
+        Log.i("API-AIRAPI", "Result String: " + response);
+        AirAPIModel model = parseResponse(response);
+        AirAPIModel.Body.Item item = model.body.items.get(0);
+        ArrayList<Integer> arr = new ArrayList<>();
+        arr.add(item.khaiGrade);
+        arr.add(item.coGrade);
+        arr.add(item.o3Grade);
+        arr.add(item.no2Grade);
+        arr.add(item.pm10Grade);
+        arr.add(item.pm25Grade);
+        Stream<Integer> stream = arr.stream();
+        int result = stream.max(Comparator.comparing(Integer::valueOf)).get();
+        Log.i("API-AIRAPI", "Result value: " + result);
         return result;
     }
 
-    public AirAPIModel parseResponse() {
+    public AirAPIModel parseResponse(String response) {
         XmlParserCreator parserCreator = new XmlParserCreator() {
             @Override
             public XmlPullParser createParser() {
@@ -104,8 +117,7 @@ public class AirAPIHandler {
                 .setXmlParserCreator(parserCreator)
                 .create();
 
-        String xml = "<model><name>my name</name><description>my description</description></model>";
-        SimpleModel model = gsonXml.fromXml(xml, SimpleModel.class);
-
+        AirAPIModel result = gsonXml.fromXml(response, AirAPIModel.class);
+        return result;
     }
 }
