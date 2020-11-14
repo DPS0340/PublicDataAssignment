@@ -59,7 +59,7 @@ public class AirAPIHandler {
         }
     }
 
-    public int requestAirAPI(String location) throws IOException, IndexOutOfBoundsException, NullPointerException {
+    public AirAPIResponse requestAirAPI(String location) throws IOException, IndexOutOfBoundsException, NullPointerException {
         StringBuilder urlBuilder = new StringBuilder(air_url); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + api_key); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*한 페이지 결과 수*/
@@ -94,18 +94,33 @@ public class AirAPIHandler {
         try {
             item = model.body.items.get(0);
         } catch (IndexOutOfBoundsException err) {
-            return 0;
+            return null;
         }
-        ArrayList<Integer> arr = new ArrayList<>();
-        arr.add(item.khaiGrade);
-        arr.add(item.coGrade);
-        arr.add(item.o3Grade);
-        arr.add(item.no2Grade);
-        arr.add(item.pm10Grade);
-        arr.add(item.pm25Grade);
-        IntStream stream = arr.stream().mapToInt(Integer::intValue);
-        int result = stream.max().getAsInt();
-        Log.i("API-AIRAPI", "Result value: " + result);
+        ArrayList<String> names = new ArrayList<>();
+        names.add("통합대기환경수치");
+        names.add("일산화탄소 농도");
+        names.add("오존 농도");
+        names.add("이산화질소 농도");
+        names.add("pm10 미세먼지 농도");
+        names.add("pm25 미세먼지 농도");
+
+        ArrayList<Integer> grades = new ArrayList<>();
+        grades.add(item.khaiGrade);
+        grades.add(item.coGrade);
+        grades.add(item.o3Grade);
+        grades.add(item.no2Grade);
+        grades.add(item.pm10Grade);
+        grades.add(item.pm25Grade);
+
+        ArrayList<Double> values = new ArrayList<>();
+        values.add(item.khaiValue);
+        values.add(item.coValue);
+        values.add(item.o3Value);
+        values.add(item.no2Value);
+        values.add(item.pm10Value);
+        values.add(item.pm25Value);
+
+        AirAPIResponse result = new AirAPIResponse(grades, values, names);
         return result;
     }
 
