@@ -60,27 +60,29 @@ public class ShowActivity extends AppCompatActivity {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout root = findViewById(R.id.statusLayout);
             LinearLayout horizontal = new LinearLayout(this);
+            horizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             for (int i = 0; i < response.getNames().size(); i++) {
                 int partStatus = response.getGrades().get(i);
                 double partValue = response.getValues().get(i);
                 String partName = response.getNames().get(i);
-                View inflated = inflater.inflate(R.layout.layout_part_air_status, horizontal, false);
+                View inflated = inflater.inflate(R.layout.layout_part_air_status, null, false);
                 setInflatedData(inflated, partStatus, partValue, partName);
                 inflated.invalidate();
+                horizontal.addView(inflated);
+                horizontal.invalidate();
                 if (i == 2) {
-                    horizontal.invalidate();
                     root.addView(horizontal);
                     root.invalidate();
                     horizontal = new LinearLayout(this);
+                    horizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 }
             }
+            root.addView(horizontal);
+            root.invalidate();
         }
     }
 
     private void setInflatedData(View inflated, int partStatus, double partValue, String partName) {
-        // 투명 배경 설정
-        inflated.setBackgroundColor(Color.parseColor("#80000000"));
-
         ImageView icon = inflated.findViewById(R.id.icon);
         TextView name = inflated.findViewById(R.id.name);
         TextView value = inflated.findViewById(R.id.value);

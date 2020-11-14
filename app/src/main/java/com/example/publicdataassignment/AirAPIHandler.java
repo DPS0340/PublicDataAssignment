@@ -97,12 +97,12 @@ public class AirAPIHandler {
             return null;
         }
         ArrayList<String> names = new ArrayList<>();
-        names.add("통합대기환경수치");
-        names.add("일산화탄소 농도");
-        names.add("오존 농도");
-        names.add("이산화질소 농도");
-        names.add("pm10 미세먼지 농도");
-        names.add("pm25 미세먼지 농도");
+        names.add("통합대기환경");
+        names.add("일산화탄소");
+        names.add("오존");
+        names.add("이산화질소");
+        names.add("pm10 미세먼지");
+        names.add("pm25 미세먼지");
 
         ArrayList<Integer> grades = new ArrayList<>();
         grades.add(item.khaiGrade);

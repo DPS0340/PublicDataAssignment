@@ -16,8 +16,7 @@ public class AirAPIResponse {
         this.grades = new ArrayList<>(grades);
         this.values = new ArrayList<>(values);
         this.names = new ArrayList<>(names);
-        IntStream stream = grades.stream().mapToInt(Integer::intValue);
-        overallStatus = stream.max().getAsInt();
+        overallStatus = this.grades.get(0);
         Log.i("API-AIRAPI", "Result grades: " + grades.toString());
         Log.i("API-AIRAPI", "Result values: " + values.toString());
         Log.i("API-AIRAPI", "Result names: " + names.toString());
