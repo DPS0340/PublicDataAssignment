@@ -4,8 +4,13 @@ package com.example.publicdataassignment;
 import android.app.Activity;
 import android.util.Log;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -45,9 +50,9 @@ public class AirAPIHandler {
         }
     }
 
-    public String requestAirAPI(String location) throws UnsupportedEncodingException, IOException {
+    public String requestAirAPI(String location) throws IOException, XmlPullParserException {
         StringBuilder urlBuilder = new StringBuilder(air_url); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode(api_key, "UTF-8")); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + api_key); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
         urlBuilder.append("&" + URLEncoder.encode("stationName", "UTF-8") + "=" + URLEncoder.encode(location, "UTF-8")); /*측정소명*/
@@ -72,7 +77,13 @@ public class AirAPIHandler {
         conn.disconnect();
         String result = sb.toString();
         Log.i("API-AIRAPI", "Response code: " + conn.getResponseCode());
-        Log.i("API-AIRAPI", "Result: " + result);
+        Log.i("API-AIRAPI", "Result String: " + result);
+
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        XmlPullParser xpp = factory.newPullParser();
+
+        xpp.setInput(new StringReader(result));
         return result;
     }
 
