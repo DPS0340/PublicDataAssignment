@@ -46,16 +46,16 @@ public class SelectActivity extends AppCompatActivity {
                     Toast.makeText(SelectActivity.this, "로딩 중입니다. 잠시만 기다려 주세요..", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String dong = null;
+                LocationModel data = null;
                 try {
-                    dong = reverseGeocoder.requestReverseGeoApi((float)latitude, (float)longitude);
+                    data = reverseGeocoder.requestReverseGeoApi((float)latitude, (float)longitude);
                 } catch (Exception err) {
                     String errString = Log.getStackTraceString(err);
                     Log.e("API-GEOAPI", errString);
                     Toast.makeText(SelectActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                goShowActivity(dong);
+                goShowActivity(data);
             }
         });
         anotherLocationButton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +102,13 @@ public class SelectActivity extends AppCompatActivity {
         startActivity(destIntent);
     }
 
+    private void goShowActivity(LocationModel data) {
+        Intent destIntent = new Intent(this, ShowActivity.class);
+        destIntent.putExtra("gu", data.getGu());
+        destIntent.putExtra("dong", data.getDong());
+        startActivity(destIntent);
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void requestPermissions() {
@@ -116,5 +123,13 @@ public class SelectActivity extends AppCompatActivity {
     private void setMainNetwork() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 }

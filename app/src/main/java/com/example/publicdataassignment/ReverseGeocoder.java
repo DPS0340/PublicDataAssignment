@@ -48,7 +48,7 @@ public class ReverseGeocoder {
         }
     }
 
-    public String requestReverseGeoApi(float latitude, float longitude) throws IOException, ArrayIndexOutOfBoundsException {
+    public LocationModel requestReverseGeoApi(float latitude, float longitude) throws IOException, ArrayIndexOutOfBoundsException {
         StringBuilder urlBuilder = new StringBuilder(reverse_geo_url); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("request", "UTF-8") + "=" + URLEncoder.encode("coordsToaddr", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("coords", "UTF-8") + "=" + URLEncoder.encode(String.format("%f,%f", longitude, latitude), "UTF-8"));
@@ -81,8 +81,11 @@ public class ReverseGeocoder {
         Log.i("GEOAPI", "Json String: " + jsonString);
         Log.i("GEOAPI", "Response code: " + conn.getResponseCode());
         GeocodeModel data = gson.fromJson(jsonString, GeocodeModel.class);
-        String result = data.results.get(0).region.area2.name;
-        Log.i("GEOAPI", "Result: " + result);
+        String gu = data.results.get(0).region.area2.name;
+        String dong = data.results.get(0).region.area3.name;
+        LocationModel result = new LocationModel(gu, dong);
+        Log.i("GEOAPI", "gu: " + gu);
+        Log.i("GEOAPI", "dong: " + dong);
         return result;
     }
 }

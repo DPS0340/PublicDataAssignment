@@ -7,11 +7,11 @@ import java.util.stream.IntStream;
 
 public class AirAPIResponse {
     private ArrayList<Integer> grades;
-    private ArrayList<Double> values;
+    private ArrayList<String> values;
     private ArrayList<String> names;
     private int overallStatus;
 
-    public AirAPIResponse(ArrayList<Integer> grades, ArrayList<Double> values, ArrayList<String> names) {
+    public AirAPIResponse(ArrayList<Integer> grades, ArrayList<String> values, ArrayList<String> names) {
         // 딥 카피 사용
         this.grades = new ArrayList<>(grades);
         this.values = new ArrayList<>(values);
@@ -27,7 +27,7 @@ public class AirAPIResponse {
         return grades;
     }
 
-    public ArrayList<Double> getValues() {
+    public ArrayList<String> getValues() {
         return values;
     }
     public ArrayList<String> getNames() {

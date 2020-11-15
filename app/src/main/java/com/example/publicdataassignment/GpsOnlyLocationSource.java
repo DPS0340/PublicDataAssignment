@@ -51,7 +51,11 @@ public class GpsOnlyLocationSource extends Thread implements LocationSource, Loc
 
         this.listener = listener;
         locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 1000, 10, (android.location.LocationListener) this);
+                LocationManager.GPS_PROVIDER, 1000, 1, (android.location.LocationListener) this);
+        Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(loc != null) {
+            onLocationChanged(loc);
+        }
     }
 
     @Override

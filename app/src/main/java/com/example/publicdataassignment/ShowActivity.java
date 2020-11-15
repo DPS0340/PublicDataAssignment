@@ -28,17 +28,26 @@ public class ShowActivity extends AppCompatActivity {
         AirAPIHandler airAPIHandler = new AirAPIHandler.Builder(this).build();
         Intent currentIntent = getIntent();
         String gu = currentIntent.getStringExtra("gu");
+        String dong = currentIntent.getStringExtra("dong");
         AirAPIResponse response = null;
         int overAllstatus;
         try {
             response = airAPIHandler.requestAirAPI(gu);
         } catch (IOException err) {
-            String errString = Log.getStackTraceString(err);
-            Log.e("API-AIRAPI", errString);
-            Toast.makeText(ShowActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();
         }
         if (response == null) {
+            if (dong != null && !dong.equals("")) {
+                try {
+                    response = airAPIHandler.requestAirAPI(dong);
+                } catch (IOException err) {
+                    String errString = Log.getStackTraceString(err);
+                    Log.e("API-AIRAPI", errString);
+                    Toast.makeText(ShowActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();                }
+            }
             overAllstatus = 0;
+            if(response != null) {
+                overAllstatus = response.getOverallStatus();
+            }
         } else {
             overAllstatus = response.getOverallStatus();
         }
@@ -63,7 +72,7 @@ public class ShowActivity extends AppCompatActivity {
             horizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             for (int i = 0; i < response.getNames().size(); i++) {
                 int partStatus = response.getGrades().get(i);
-                double partValue = response.getValues().get(i);
+                String partValue = response.getValues().get(i);
                 String partName = response.getNames().get(i);
                 View inflated = inflater.inflate(R.layout.layout_part_air_status, null, false);
                 setInflatedData(inflated, partStatus, partValue, partName);
@@ -82,7 +91,7 @@ public class ShowActivity extends AppCompatActivity {
         }
     }
 
-    private void setInflatedData(View inflated, int partStatus, double partValue, String partName) {
+    private void setInflatedData(View inflated, int partStatus, String partValue, String partName) {
         ImageView icon = inflated.findViewById(R.id.icon);
         TextView name = inflated.findViewById(R.id.name);
         TextView value = inflated.findViewById(R.id.value);

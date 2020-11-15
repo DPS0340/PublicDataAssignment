@@ -112,7 +112,7 @@ public class AirAPIHandler {
         grades.add(item.pm10Grade);
         grades.add(item.pm25Grade);
 
-        ArrayList<Double> values = new ArrayList<>();
+        ArrayList<String> values = new ArrayList<>();
         values.add(item.khaiValue);
         values.add(item.coValue);
         values.add(item.o3Value);

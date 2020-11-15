@@ -35,12 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setTimeoutToSelectActivity(0.8);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        goSelectActivity();
-    }
-
     private void setTimeoutToSelectActivity(double sec) {
         new android.os.Handler().postDelayed(
                 new Runnable() {

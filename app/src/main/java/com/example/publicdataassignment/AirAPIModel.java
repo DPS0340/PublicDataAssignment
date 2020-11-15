@@ -12,15 +12,15 @@ public class AirAPIModel {
         public class Item {
             public String dataTime;
             public String mangName;
-            public double so2Value;
-            public double coValue;
-            public double o3Value;
-            public double no2Value;
-            public double pm10Value;
-            public double pm10Value24;
-            public double pm25Value;
-            public double pm25Value24;
-            public double khaiValue;
+            public String so2Value;
+            public String coValue;
+            public String o3Value;
+            public String no2Value;
+            public String pm10Value;
+            public String pm10Value24;
+            public String pm25Value;
+            public String pm25Value24;
+            public String khaiValue;
             public int khaiGrade;
             public int coGrade;
             public int o3Grade;
