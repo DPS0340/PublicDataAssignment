@@ -35,20 +35,22 @@ public class SelectActivity extends AppCompatActivity {
         gpsOnlyLocationSource.activate((LocationSource.OnLocationChangedListener) gpsListener);
         Button currentLocationButton = findViewById(R.id.currentLocationButton);
         Button anotherLocationButton = findViewById(R.id.anotherLocationButton);
+        Button mapButton = findViewById(R.id.mapButton);
+
 
         currentLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 double latitude = gpsListener.getLatitude();
                 double longitude = gpsListener.getLongitude();
-                if(latitude == -1 || longitude == -1) {
+                if (latitude == -1 || longitude == -1) {
                     Log.e("API-GEOAPI", "not Initialized");
                     Toast.makeText(SelectActivity.this, "로딩 중입니다. 잠시만 기다려 주세요..", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 LocationModel data = null;
                 try {
-                    data = reverseGeocoder.requestReverseGeoApi((float)latitude, (float)longitude);
+                    data = reverseGeocoder.requestReverseGeoApi((float) latitude, (float) longitude);
                 } catch (Exception err) {
                     String errString = Log.getStackTraceString(err);
                     Log.e("API-GEOAPI", errString);
@@ -62,6 +64,12 @@ public class SelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDialog();
+            }
+        });
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goMapActivity();
             }
         });
     }
@@ -95,6 +103,11 @@ public class SelectActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+
+    private void goMapActivity() {
+        Intent destIntent = new Intent(this, MapActivity.class);
+        startActivity(destIntent);
     }
 
     private void goShowActivity(String gu) {

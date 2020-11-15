@@ -7,6 +7,17 @@
     tools:context=".SelectActivity">
 
     <Button
+        android:id="@+id/mapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:text="현위치 지도 보기"
+        app:layout_constraintBottom_toTopOf="@+id/currentLocationButton"
+        app:layout_constraintEnd_toEndOf="@+id/anotherLocationButton"
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="@+id/currentLocationButton" />
+
+    <Button
         android:id="@+id/currentLocationButton"
         android:layout_width="130dp"
         android:layout_height="86dp"
