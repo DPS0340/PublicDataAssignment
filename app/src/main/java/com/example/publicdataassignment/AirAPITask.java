@@ -27,6 +27,9 @@ public class AirAPITask extends AsyncTask<AddressModel, Void, AirAPIResponse> {
         addresses.add(addressModel.getDong());
 
         for(String address : addresses) {
+            if(address == null) {
+                continue;
+            }
             AirAPIResponse candidate = null;
             try {
                 candidate = new AirAPIHandler.Builder(activity).build().requestAirAPI(address);
