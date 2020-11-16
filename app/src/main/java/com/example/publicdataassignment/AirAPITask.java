@@ -49,6 +49,7 @@ public class AirAPITask extends AsyncTask<AddressModel, Void, AirAPIResponse> {
         if(result != null) {
             overAllstatus = result.getOverallStatus();
         }
+        activity.setContentView(R.layout.activity_show);
         activity.initLayout(gu, overAllstatus, result);
     }
 

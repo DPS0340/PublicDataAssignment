@@ -24,7 +24,8 @@ public class ShowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show);
+        // 초기값으로 로딩 뷰 설정
+        setContentView(R.layout.activity_main);
         AirAPIHandler airAPIHandler = new AirAPIHandler.Builder(this).build();
         Intent currentIntent = getIntent();
         String gu = currentIntent.getStringExtra("gu");
