@@ -29,32 +29,11 @@ public class ShowActivity extends AppCompatActivity {
         Intent currentIntent = getIntent();
         String gu = currentIntent.getStringExtra("gu");
         String dong = currentIntent.getStringExtra("dong");
-        AirAPIResponse response = null;
-        int overAllstatus;
-        try {
-            response = airAPIHandler.requestAirAPI(gu);
-        } catch (IOException err) {
-        }
-        if (response == null) {
-            if (dong != null && !dong.equals("")) {
-                try {
-                    response = airAPIHandler.requestAirAPI(dong);
-                } catch (IOException err) {
-                    String errString = Log.getStackTraceString(err);
-                    Log.e("API-AIRAPI", errString);
-                    Toast.makeText(ShowActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();                }
-            }
-            overAllstatus = 0;
-            if(response != null) {
-                overAllstatus = response.getOverallStatus();
-            }
-        } else {
-            overAllstatus = response.getOverallStatus();
-        }
-        initLayout(gu, overAllstatus, response);
+        AddressModel addressModel = new AddressModel(gu, dong);
+        new AirAPITask(this).execute(addressModel);
     }
 
-    private void initLayout(String gu, int status, AirAPIResponse response) {
+    public void initLayout(String gu, int status, AirAPIResponse response) {
         TextView todayText = findViewById(R.id.todayIsText);
         if (status != 0) {
             todayText.setText(String.format(todayText.getText().toString(), gu, parseStatus(status)));

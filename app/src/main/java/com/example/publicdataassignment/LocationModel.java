@@ -1,19 +1,19 @@
 package com.example.publicdataassignment;
 
 public class LocationModel {
-    private String gu;
-    private String dong;
+    private double latitude;
+    private double longitude;
 
-    public LocationModel(String gu, String dong) {
-        this.gu = gu;
-        this.dong = dong;
+    public float getLatitude() {
+        return (float)latitude;
     }
 
-    public String getGu() {
-        return gu;
+    public float getLongitude() {
+        return (float)longitude;
     }
 
-    public String getDong() {
-        return dong;
+    public LocationModel(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

@@ -21,11 +21,11 @@ public class GpsListener implements LocationSource.OnLocationChangedListener {
         longitude = location.getLongitude();
     }
 
-    public double getLatitude() {
-        return latitude;
+    public float getLatitude() {
+        return (float) latitude;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public float getLongitude() {
+        return (float)longitude;
     }
 }

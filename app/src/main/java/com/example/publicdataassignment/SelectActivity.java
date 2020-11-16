@@ -22,42 +22,43 @@ import com.naver.maps.map.LocationSource;
 
 public class SelectActivity extends AppCompatActivity {
 
+    private GpsOnlyLocationSource gpsOnlyLocationSource;
+    private GpsListener gpsListener;
+    private ReverseGeocoder reverseGeocoder;
+    private Button currentLocationButton;
+    private Button anotherLocationButton;
+    private Button mapButton;
+    private SelectActivity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
         requestPermissions();
-        setMainNetwork();
+        activity = this;
 
-        GpsOnlyLocationSource gpsOnlyLocationSource = new GpsOnlyLocationSource(this);
-        GpsListener gpsListener = new GpsListener();
-        ReverseGeocoder reverseGeocoder = new ReverseGeocoder.Builder(this).build();
+        gpsOnlyLocationSource = new GpsOnlyLocationSource(this);
+        gpsListener = new GpsListener();
+        reverseGeocoder = new ReverseGeocoder.Builder(this).build();
+        currentLocationButton = findViewById(R.id.currentLocationButton);
+        anotherLocationButton = findViewById(R.id.anotherLocationButton);
+        mapButton = findViewById(R.id.mapButton);
+
         gpsOnlyLocationSource.activate((LocationSource.OnLocationChangedListener) gpsListener);
-        Button currentLocationButton = findViewById(R.id.currentLocationButton);
-        Button anotherLocationButton = findViewById(R.id.anotherLocationButton);
-        Button mapButton = findViewById(R.id.mapButton);
 
 
         currentLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double latitude = gpsListener.getLatitude();
-                double longitude = gpsListener.getLongitude();
+                float latitude = gpsListener.getLatitude();
+                float longitude = gpsListener.getLongitude();
+                LocationModel locationModel = new LocationModel(latitude, longitude);
                 if (latitude == -1 || longitude == -1) {
                     Log.e("API-GEOAPI", "not Initialized");
                     Toast.makeText(SelectActivity.this, "로딩 중입니다. 잠시만 기다려 주세요..", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                LocationModel data = null;
-                try {
-                    data = reverseGeocoder.requestReverseGeoApi((float) latitude, (float) longitude);
-                } catch (Exception err) {
-                    String errString = Log.getStackTraceString(err);
-                    Log.e("API-GEOAPI", errString);
-                    Toast.makeText(SelectActivity.this, "통신에 오류가 생겼습니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                goShowActivity(data);
+                new ReverseGeocodeTask(activity).execute(locationModel);
             }
         });
         anotherLocationButton.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +74,7 @@ public class SelectActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void showDialog() {
         final Dialog dialog = new Dialog(this);
@@ -105,18 +107,18 @@ public class SelectActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void goMapActivity() {
+    public void goMapActivity() {
         Intent destIntent = new Intent(this, MapActivity.class);
         startActivity(destIntent);
     }
 
-    private void goShowActivity(String gu) {
+    public void goShowActivity(String gu) {
         Intent destIntent = new Intent(this, ShowActivity.class);
         destIntent.putExtra("gu", gu);
         startActivity(destIntent);
     }
 
-    private void goShowActivity(LocationModel data) {
+    public void goShowActivity(AddressModel data) {
         Intent destIntent = new Intent(this, ShowActivity.class);
         destIntent.putExtra("gu", data.getGu());
         destIntent.putExtra("dong", data.getDong());
