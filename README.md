@@ -14,9 +14,7 @@
 * Website: https://velog.io/@dps0340
 * Github: [@DPS0340](https://github.com/DPS0340)
 
-## Show your support
-
-Give a ⭐️ if this project helped you!
+## Demo
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
