@@ -19,4 +19,9 @@
 ![miseclone-result](https://user-images.githubusercontent.com/32592965/109403646-d67ace00-79a1-11eb-9ce4-63726b5f453f.png)
 ![miseclone-select](https://user-images.githubusercontent.com/32592965/109403656-fa3e1400-79a1-11eb-8d53-8ee17fc1744d.png)
 ***
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
